@@ -59,14 +59,20 @@ steps:
     command: 'Push an image'
     imageName: $(TAG_DEV):latest
 
-- task: CopyFiles@2
-  displayName: Create Archive with Kubernetes YAML
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Kubernetes YAML'
   inputs:
-    contents: manifest/*
-    targetFolder: $(Build.ArtifactStagingDirectory)
+    pathtoPublish: manifest
+    artifactName: manifest
 
 - task: PublishBuildArtifacts@1
-  displayName: Publish Archive with Kubernetes YAML
+  displayName: 'Publish Azure scripts'
   inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: Yaml
+    PathtoPublish: azure
+    ArtifactName: azure
+    
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Monspec'
+  inputs:
+    PathtoPublish: monspec
+    ArtifactName: monspec
