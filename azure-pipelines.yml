@@ -4,13 +4,12 @@ pool:
 variables:
   APP_NAME: "carts"
   ARTEFACT_ID: "sockshop/$(APP_NAME)"
-  DOCKER_REGISTRY: "$(dockerRegistryEndpoint)"
-  SUBSCRIPTION_ENDPOINT: "InnovationLab-Dev"  # variable for this not yet supported
+
 
 steps:
 - script: |
     versionFromFile=$(cat ./version)
-    theTag=$(DOCKER_REGISTRY)/$(ARTEFACT_ID)
+    theTag=$(acrEndpoint)/$(ARTEFACT_ID)
     theDevTag=$theTag-$versionFromFile-$(Build.BuildId)
     TheStageTag=$theTag-$versionFromFile
     echo "##vso[task.setvariable variable=VERSION]$versionFromFile"
@@ -41,24 +40,24 @@ steps:
     goals: 'clean package'
 
 - task: Docker@1
-  displayName: 'Build an image'
+  displayName: 'Login in Azure Container Registry'
   inputs:
-    imageName: $(TAG_DEV)
-
-- task: Docker@1
-  displayName: Login
-  inputs:
-    azureSubscriptionEndpoint: $(SUBSCRIPTION_ENDPOINT)
-    azureContainerRegistry: $(DOCKER_REGISTRY)
+    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureContainerRegistry: $(acrEndpoint)
     command: login
 
 - task: Docker@1
-  displayName: 'Push an image'
+  displayName: 'Build an image on the hosted agent'
   inputs:
-    azureSubscriptionEndpoint: $(SUBSCRIPTION_ENDPOINT)
-    azureContainerRegistry: $(DOCKER_REGISTRY)
-    command: 'push'
-    imageName: $(TAG_DEV)
+   imageName: $(TAG_DEV)
+
+- task: Docker@1
+  displayName: 'Push an image to Azure Container Registry'
+  inputs:
+    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureContainerRegistry: $(acrEndpoint)
+    command: 'Push an image'
+    imageName: $(TAG_DEV):latest
 
 - task: CopyFiles@2
   displayName: Create Archive with Kubernetes YAML
