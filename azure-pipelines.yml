@@ -4,12 +4,13 @@ pool:
 variables:
   APP_NAME: "carts"
   ARTEFACT_ID: "sockshop/$(APP_NAME)"
+  ACR_ENDPOINT: $(acrEndpoint)
 
 
 steps:
 - script: |
     versionFromFile=$(cat ./version)
-    theTag=$(acrEndpoint)/$(ARTEFACT_ID)
+    theTag=$(ACR_ENDPOINT)/$(ARTEFACT_ID)
     theDevTag=$theTag-$versionFromFile-$(Build.BuildId)
     TheStageTag=$theTag-$versionFromFile
     echo "##vso[task.setvariable variable=VERSION]$versionFromFile"
@@ -19,9 +20,6 @@ steps:
   displayName: 'Set build variables'
 
 - script: |
-    echo theTag = $theTag
-    echo theDevTag = $theDevTag
-    echo TheStageTag = $TheStageTag
     echo VERSION = $(VERSION)
     echo TAG = $(TAG)
     echo TAG_DEV = $(TAG_DEV)
