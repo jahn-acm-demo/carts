@@ -2,20 +2,26 @@
 # Push Dynatrace event using the Dynatrace API
 # 
 # Arguments:
-# $1 = Dynatrace URL
+# $1 = Dynatrace URL  
 # $2 = Dynatrace Token
 # $3 = Tag value for environment
 # $4 = Tag value for kubernetes app
-# $5 = 
+# $5 = $(Release.DefinitionName)
+# $6 = $(Release.ReleaseId)
+# $7 = $(System.TeamProject)
+# $8 = $(System.TeamFoundationCollectionUri)
+#
+# Example parm values
+# $(dynatraceTennantUrl) $(dynatraceApiToken) dev carts $(Release.DefinitionName) $(Release.ReleaseId) $(System.TeamProject) $(System.TeamFoundationCollectionUri)
 ##########################################
 postData=$(cat <<EOF
     {
         "eventType" : "CUSTOM_DEPLOYMENT",
         "source" : "AzureDevops" ,
-        "deploymentName" : "$Release.DefinitionName",
-        "deploymentVersion" : "$Release.ReleaseId"  ,
-        "deploymentProject" : "$System.TeamProject" ,
-        "ciBackLink" : "$System.TeamFoundationCollectionUri",
+        "deploymentName" : "$5",
+        "deploymentVersion" : "$6"  ,
+        "deploymentProject" : "$7" ,
+        "ciBackLink" : "$8",
         "attachRules" : {
                "tagRule" : [
                    {
