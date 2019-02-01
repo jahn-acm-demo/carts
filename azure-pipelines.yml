@@ -74,3 +74,10 @@ steps:
   inputs:
     PathtoPublish: monspec
     ArtifactName: monspec
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Monspec'
+  inputs:
+    PathtoPublish: jmeter
+    ArtifactName: jmeter
+
