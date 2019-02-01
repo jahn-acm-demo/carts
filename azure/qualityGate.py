@@ -17,6 +17,14 @@ if len(sys.argv)-1 >= 3:
     print('arg 3:' + sys.argv[3])
 
 print('====================================================')
+print('Read file')
+print('====================================================')
+if len(sys.argv)-1 >= 2:
+    with open(sys.argv[2], 'r') as myfile:
+        filecontents = myfile.read()
+    print('contents: ' + filecontents)
+  
+print('====================================================')
 print('Gate Test')
 print('====================================================')
 try:
