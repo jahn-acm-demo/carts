@@ -16,3 +16,5 @@ credentials.yml
 
 *.classpath
 *.project
+
+.DS_Store
