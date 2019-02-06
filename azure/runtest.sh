@@ -70,4 +70,4 @@ echo "VUCount    : $VUCount"
 echo "LoopCount  : $LoopCount"
 echo ***************************************************
 
-.$jMeterPath/bin/jmeter.sh -n -t $scriptName -l result.tlf -JSERVER_URL="$serverUrl" -JSERVER_PORT="$serverPort" -JDT_LTN="$DT_LTN" -JVUCount="$VUCount" -JLoopCount="$LoopCount"
+bash $jMeterPath/bin/jmeter.sh -n -t $scriptName -l result.tlf -JSERVER_URL="$serverUrl" -JSERVER_PORT="$serverPort" -JDT_LTN="$DT_LTN" -JVUCount="$VUCount" -JLoopCount="$LoopCount"
